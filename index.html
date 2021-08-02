@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./static/jweixin-1.6.0.js"></script>
+</head>
+<body>
+    <h1>test</h1>
+    <img src="./static/工作2.png" alt="">
+    <img src="./static/联合工作.png" alt="">
+    <script>
+         if ('serviceWorker' in navigator) {
+        /* 当页面加载完成就创建一个serviceWorker */
+        window.addEventListener('load', function () {
+            /* 创建并指定对应的执行内容 */
+            /* scope 参数是可选的，可以用来指定你想让 service worker 控制的内容的子目录。 在这个例子里，我们指定了 '/'，表示 根网域下的所有内容。这也是默认值。 */
+            navigator.serviceWorker.register('./serviceWorker.js', {scope: './skyworker-jpg/'})
+                .then(function (registration) {
+ 
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    navigator.serviceWorker.controller && navigator.serviceWorker.controller.postMessage("this message1 is from page");
+                    registration.active.postMessage("this message2 is from page")
+                })
+                .catch(function (err) {
+ 
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
+    }
+    </script>
+</body>
+</html>
