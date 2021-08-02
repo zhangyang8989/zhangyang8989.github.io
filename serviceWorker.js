@@ -7,6 +7,7 @@ this.addEventListener("install", function (event) {
       /* 指定要缓存的内容，地址为相对于跟域名的访问路径 */
       return cache.addAll([
           "./index.html",
+          "./static/工作2.png",
           "./static/jweixin-1.6.0.js"
         ]);
     })
@@ -22,24 +23,19 @@ this.addEventListener("fetch", function (event) {
   event.respondWith(
     /* 在缓存中匹配对应请求资源直接返回 */
     caches.match(event.request).then(function(response) {
+        debugger
         if (response) {
-          console.log('Found response in cache:', response);
+          console.log('缓存中匹配到了资源:', response);
           return response;
         }
-        console.log('No response found in cache. About to fetch from network...');
-  
+        console.log('没有在缓存中匹配到资源，重新请求资源...');
         return fetch(event.request).then(function(response) {
-          console.log('Response from network is:', response);
-  
+          console.log('从服务器请求到资源:', response);
           return response;
         }).catch(function(error) {
           console.error('Fetching failed:', error);
-  
           throw error;
         });
       })
   );
-});
-this.addEventListener("message", function (event) {
-  console.log(event.data); // this message is from page
 });
